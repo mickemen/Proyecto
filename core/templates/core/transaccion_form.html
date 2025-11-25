@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Nueva transacción{% endblock %}
+
+{% block content %}
+<h1 class="h3 mb-4">Nueva transacción</h1>
+
+<div class="card shadow-sm">
+  <div class="card-body">
+    <form method="post" novalidate>
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+
+      {% for field in form %}
+        <div class="mb-3">
+          <label class="form-label" for="{{ field.id_for_label }}">
+            {{ field.label }}
+          </label>
+          {{ field }}
+          {% if field.errors %}
+            <div class="text-danger small">
+              {{ field.errors|striptags }}
+            </div>
+          {% endif %}
+        </div>
+      {% endfor %}
+
+      <button type="submit" class="btn btn-primary">Guardar</button>
+      <a href="{% url 'core:lista_transacciones' %}" class="btn btn-outline-secondary ms-2">
+        Cancelar
+      </a>
+    </form>
+  </div>
+</div>
+{% endblock %}

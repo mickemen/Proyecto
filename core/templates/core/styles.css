@@ -1,0 +1,16 @@
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+h1, h2 {
+    font-weight: 600;
+}
+
+.table thead th {
+    background-color: #0d6efd;
+    color: #fff;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #eef4ff;
+}

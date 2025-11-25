@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block title %}Mis transacciones{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <div>
+    <h1 class="h3 mb-1">Mis transacciones</h1>
+    <p class="text-muted mb-0">
+      Aquí puedes ver todas las transacciones de tus cuentas.
+    </p>
+  </div>
+  <a class="btn btn-primary" href="{% url 'core:nueva_transaccion' %}">
+    Nueva transacción
+  </a>
+</div>
+
+<div class="row g-3 mb-3">
+  <div class="col-md-4">
+    <div class="card shadow-sm">
+      <div class="card-body py-3">
+        <h6 class="card-subtitle text-muted mb-1">Número de transacciones</h6>
+        <p class="h5 mb-0">{{ transacciones|length }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card shadow-sm">
+      <div class="card-body py-3">
+        <h6 class="card-subtitle text-muted mb-1">Balance total (suma de montos)</h6>
+        <p class="h5 mb-0">
+          {% if total >= 0 %}
+            <span class="text-success">{{ total }}</span>
+          {% else %}
+            <span class="text-danger">{{ total }}</span>
+          {% endif %}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card shadow-sm">
+  <div class="card-body">
+    {% if transacciones %}
+      <div class="table-responsive">
+        <table class="table table-striped table-hover align-middle mb-0">
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>Cuenta</th>
+              <th>Categoría</th>
+              <th>Descripción</th>
+              <th class="text-end">Monto</th>
+              <th class="text-center">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for t in transacciones %}
+            <tr>
+              <td>{{ t.fecha }}</td>
+              <td>{{ t.cuenta.nombre }}</td>
+              <td>
+                {% if t.categoria.tipo == 'ingreso' %}
+                  <span class="badge bg-success-subtle text-success-emphasis border border-success-subtle">
+                    {{ t.categoria.nombre }}
+                  </span>
+                {% else %}
+                  <span class="badge bg-danger-subtle text-danger-emphasis border border-danger-subtle">
+                    {{ t.categoria.nombre }}
+                  </span>
+                {% endif %}
+              </td>
+              <td class="text-muted">
+                {{ t.descripcion|default:"(Sin descripción)" }}
+              </td>
+              <td class="text-end">
+                {% if t.monto >= 0 %}
+                  <span class="fw-semibold text-success">{{ t.monto }}</span>
+                {% else %}
+                  <span class="fw-semibold text-danger">{{ t.monto }}</span>
+                {% endif %}
+              </td>
+              <td class="text-center">
+                <a href="{% url 'core:eliminar_transaccion' t.id %}"
+                   class="btn btn-sm btn-outline-danger">
+                  Eliminar
+                </a>
+              </td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <p class="text-muted mb-0">
+        No tienes transacciones registradas todavía.
+      </p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

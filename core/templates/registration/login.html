@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Iniciar sesión{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-5 col-lg-4">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h1 class="h4 mb-3 text-center">Iniciar sesión</h1>
+
+        {% if form.errors %}
+          <div class="alert alert-danger">
+            Usuario o contraseña incorrectos. Inténtalo de nuevo.
+          </div>
+        {% endif %}
+
+        {% if next %}
+          <p class="text-muted small">
+            Debes iniciar sesión para acceder a esta página.
+          </p>
+        {% endif %}
+
+        <form method="post" novalidate>
+          {% csrf_token %}
+
+          <div class="mb-3">
+            <label for="{{ form.username.id_for_label }}" class="form-label">
+              Usuario
+            </label>
+            {{ form.username }}
+          </div>
+
+          <div class="mb-3">
+            <label for="{{ form.password.id_for_label }}" class="form-label">
+              Contraseña
+            </label>
+            {{ form.password }}
+          </div>
+
+          <button type="submit" class="btn btn-primary w-100">
+            Entrar
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <p class="text-center text-muted small mt-3 mb-0">
+      ¿No tienes usuario? Pídele a un administrador que te registre.
+    </p>
+  </div>
+</div>
+{% endblock %}

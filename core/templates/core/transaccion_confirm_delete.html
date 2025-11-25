@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Eliminar transacción{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6 col-lg-5">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h1 class="h4 mb-3 text-danger">Eliminar transacción</h1>
+
+        <p>¿Seguro que quieres eliminar esta transacción?</p>
+
+        <ul class="list-group mb-3">
+          <li class="list-group-item">
+            <strong>Fecha:</strong> {{ transaccion.fecha }}
+          </li>
+          <li class="list-group-item">
+            <strong>Cuenta:</strong> {{ transaccion.cuenta.nombre }}
+          </li>
+          <li class="list-group-item">
+            <strong>Categoría:</strong> {{ transaccion.categoria.nombre }}
+          </li>
+          <li class="list-group-item">
+            <strong>Descripción:</strong>
+            {{ transaccion.descripcion|default:"(Sin descripción)" }}
+          </li>
+          <li class="list-group-item">
+            <strong>Monto:</strong> {{ transaccion.monto }}
+          </li>
+        </ul>
+
+        <form method="post" class="d-flex gap-2">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-danger">
+            Sí, eliminar
+          </button>
+          <a href="{% url 'core:lista_transacciones' %}" class="btn btn-outline-secondary">
+            Cancelar
+          </a>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
